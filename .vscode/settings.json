@@ -1,0 +1,14 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "always",
+            "source.isort.defaultFormatter": "always",
+            "source.unusedImports": "always",
+            "source.organizeImports": "always",
+        },
+},
+
+    "CodeGPT.apiKey": "CodeGPT Plus"
+}
