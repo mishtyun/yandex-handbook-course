@@ -3,6 +3,7 @@ import pandas as pd
 from base_data_processor import BaseDataPreprocessor
 from exponential_linear_regression import ExponentialLinearRegression
 from root_mean_squared_logarithmic_error import root_mean_squared_logarithmic_error
+from sgd_linear_regressor import SGDLinearRegressor
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.metrics import make_scorer, mean_absolute_error, mean_squared_error
 from sklearn.model_selection import (
@@ -158,6 +159,14 @@ def main(
     return
 
 
+def test_sgd_linear_regressor(X_train, Y_train, X_test, Y_test):
+    model = SGDLinearRegressor()
+    model.fit(X_train, Y_train)
+
+    prediction = model.predict(X_test)
+    print("MAE : ", mean_absolute_error(Y_test, prediction))
+
+
 if __name__ == "__main__":
     data = load_data()
 
@@ -179,6 +188,8 @@ if __name__ == "__main__":
     base_processor = BaseDataPreprocessor(needed_columns=continuous_columns)
 
     X_train = base_processor.fit_transform(data_train)
+    X_test = base_processor.transform(data_test)
+
     X_full = base_processor.transform(data)
     Y_full = np.array(data[target_column])
 
@@ -199,6 +210,7 @@ if __name__ == "__main__":
             Y_test,
             continuous_columns,
         )
-
-    if True:
+    if False:
         res = hyperparameters_selection(X_full, Y_full)
+
+    test_sgd_linear_regressor(X_train, Y_train, X_test, Y_test)
