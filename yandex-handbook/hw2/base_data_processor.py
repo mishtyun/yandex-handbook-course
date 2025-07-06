@@ -23,7 +23,7 @@ class BaseDataPreprocessor(TransformerMixin):
             return data[self._needed_columns]
         return data
 
-    def fit(self, data, *args):
+    def fit(self, data, *args) -> "BaseDataPreprocessor":
         """
         Prepares the class for future transformations
         :param data: pd.DataFrame with all available columns

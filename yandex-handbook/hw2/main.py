@@ -190,8 +190,12 @@ if __name__ == "__main__":
     X_train = base_processor.fit_transform(data_train)
     X_test = base_processor.transform(data_test)
 
-    X_full = base_processor.transform(data)
-    Y_full = np.array(data[target_column])
+    # one_hot_processor = OneHotPreprocessor(needed_columns=continuous_columns)
+    # X_train2 = one_hot_processor.fit_transform(data_train)
+    # X_test2 = one_hot_processor.transform(data_test)
+
+    # X_full = base_processor.transform(data)
+    # Y_full = np.array(data[target_column])
 
     if False:
         main(
@@ -212,5 +216,15 @@ if __name__ == "__main__":
         )
     if False:
         res = hyperparameters_selection(X_full, Y_full)
-
     test_sgd_linear_regressor(X_train, Y_train, X_test, Y_test)
+
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+
+    plt.figure(figsize=(10, 6))
+    sns.histplot(
+        data=data[continuous_columns],
+        kde=True,
+    )
+    plt.title("Age Distribution by Survived")
+    plt.show()
