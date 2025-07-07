@@ -1,17 +1,17 @@
 import numpy as np
 import pandas as pd
-from sklearn.base import TransformerMixin
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.discriminant_analysis import StandardScaler
 
 
-class BaseDataPreprocessor(TransformerMixin):
+class BaseDataPreprocessor(BaseEstimator, TransformerMixin):
     def __init__(self, needed_columns: list[str] | None = None):
         """
         :param needed_columns: if not None select these columns from the dataframe
         """
         self.scaler = StandardScaler()
 
-        self._needed_columns: list[str] | None = needed_columns
+        self.needed_columns: list[str] | None = needed_columns
         self._selected_columns: list[str] | set[str] | None = None
 
     def get_data(self, data: pd.DataFrame) -> pd.DataFrame:
@@ -19,8 +19,8 @@ class BaseDataPreprocessor(TransformerMixin):
         Returns a dataframe with only needed columns
         :param data: pd.DataFrame with all data
         """
-        if self._needed_columns is not None:
-            return data[self._needed_columns]
+        if self.needed_columns is not None:
+            return data[self.needed_columns]
         return data
 
     def fit(self, data, *args) -> "BaseDataPreprocessor":

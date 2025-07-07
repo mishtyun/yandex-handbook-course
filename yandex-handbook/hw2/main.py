@@ -12,6 +12,7 @@ from sklearn.model_selection import (
     cross_val_score,
     train_test_split,
 )
+from ultimate_pipeline import make_ultimate_pipeline
 
 base = "/Users/nikita/learn/stepic-ml-colabs/content/"
 
@@ -164,7 +165,18 @@ def test_sgd_linear_regressor(X_train, Y_train, X_test, Y_test):
     model.fit(X_train, Y_train)
 
     prediction = model.predict(X_test)
-    print("MAE : ", mean_absolute_error(Y_test, prediction))
+    print("SGD MAE : ", mean_absolute_error(Y_test, prediction))
+
+
+def test_make_ultimate_pipeline(X_train, Y_train, X_test, Y_test):
+    pipe = make_ultimate_pipeline()
+    pipe.fit(X_train, Y_train)
+
+    # print(pipe.best_params_)
+    # print(pipe.best_score_)
+
+    prediction = pipe.predict(X_test)
+    print("Pipeline MAE : ", mean_absolute_error(Y_test, prediction))
 
 
 if __name__ == "__main__":
@@ -216,15 +228,6 @@ if __name__ == "__main__":
         )
     if False:
         res = hyperparameters_selection(X_full, Y_full)
-    test_sgd_linear_regressor(X_train, Y_train, X_test, Y_test)
 
-    import matplotlib.pyplot as plt
-    import seaborn as sns
-
-    plt.figure(figsize=(10, 6))
-    sns.histplot(
-        data=data[continuous_columns],
-        kde=True,
-    )
-    plt.title("Age Distribution by Survived")
-    plt.show()
+    # test_sgd_linear_regressor(X_train, Y_train, X_test, Y_test)
+    test_make_ultimate_pipeline(data_train, Y_train, data_test, Y_test)

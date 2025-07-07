@@ -1,17 +1,17 @@
 import numpy as np
-from sklearn.base import RegressorMixin
+from sklearn.base import BaseEstimator, RegressorMixin
 
 
-class SGDLinearRegressor(RegressorMixin):
+class SGDLinearRegressor(BaseEstimator, RegressorMixin):
     def __init__(
         self,
-        lr=0.01,
+        lr=1e-3,
         regularization: float = 1,
         delta_converged: float = 1e-3,
         max_steps: int = 1000,
         batch_size: int = 64,
     ):
-        self.learning_rate = lr
+        self.lr = lr
         self.regularization = regularization
         self.delta_converged = delta_converged
         self.max_steps = max_steps
@@ -50,14 +50,11 @@ class SGDLinearRegressor(RegressorMixin):
                     + 2 * self.regularization * old_weights
                 )
 
-                self.b -= self.learning_rate * bias_grad
-                self.W -= self.learning_rate * weights_grad
+                self.b -= self.lr * bias_grad
+                self.W -= self.lr * weights_grad
 
                 if np.linalg.norm(old_weights - self.W) < self.delta_converged:
                     break
-
-        print("Weights: ", self.W)
-        print("Bias: ", self.b)
 
         return self
 
